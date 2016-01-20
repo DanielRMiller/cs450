@@ -1,0 +1,40 @@
+When your assignment is complete, please answer the questions in this text file and upload it to I-Learn.
+
+1. Please provide the URL of your public GitHub repository.
+http://github.com/DanielRMiller/cs450
+
+2. Briefly describe your overall approach to the task and highlight the most difficult part of this assignment.
+My overall approach was to start with creating a file that would do everything and then to modularize it when the time came. This did not work well at all. I had to end up scrapping the entire thing twice and start again. This is because I am a slow learner sometimes.
+After I figured out that I needed to start with an overall blanket things took off a little better. I was able to set up a main.py file that would read in my data from sklearn and use the hard-coded classifier to give me the proper results. It was an important step because now the hCClassifier.py was not tangled up in the mess of code that was to become my main.py file.
+When That was finished I was able to focus on making the main.py file accept a file and also worked on getting it to accept a URL. This was an adventure to say the least. I ended up reading the file into a string and parsing the string so that the class remained as a string rather than being converted to NaN.
+After I had the main.py working I worked on the classifier and it went more smoothly because I already had the return value working and just had to check what each step was doing along the way. I did find a lot of help on the internet for the details.
+
+3. Briefly describe how you handled the distance between nominal attributes.
+The distance between nominal attributes was done with the euclidian formula. Just took the distance from the new instance to the old instance and squared it. In the event that the number was negative I added one only if the numbers were different.
+
+4. Briefly describe your process for handling numeric data on different scales (i.e., normalizing).
+Normalizing the data required me to use the mean and standard deviations. I simply took the instance and subtracted the mean and devided it by the standard deviation. This happened for each value.
+
+5. Describe your results for the Iris data set. (For example, what level of accuracy did you see for different values of K? How did your implementation compare to existing implementations?)
+The results for my implementation was anywhere from 88 to 100 percent with k = 3. With k = 1 I was getting about 86 to 100 and with k = 5 I was getting 89 to 100 percent. k = 7 gave me about 91 to 100. This type of data was pretty consistant up to about 21. Then we started to see it drop back down to the 89 to 100 range again and below.
+
+6. Describe your results for the Car data set. (For example, what level of accuracy did you see for different values of K? How did your implementation compare to existing implementations?)
+The car dataset gave me a 93% or above accuracy up to the k = 21 point. After that just like the first it started dropping off.
+
+
+7. Describe anything you did to go above and beyond the minimum standard requirements.
+I implmented reading the file not just from a file but also implemented reading from a URL. This allowed me to pull data from the iris website you gave and use that data on the fly.
+
+8. Please select the category you feel best describes your assignment:
+E - Shows creativity and excels above and beyond requirements
+
+Options:
+A - Some attempt was made
+B - Developing, but signficantly deficient
+C - Slightly deficient, but still mostly adequate
+D - Meets requirements
+E - Shows creativity and excels above and beyond requirements
+
+
+9. Provide a brief justification (1-2 sentences) for selecting that category.
+I was able to do all of the requirements and worked very hard on getting the file from a URL.
