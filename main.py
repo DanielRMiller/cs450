@@ -11,43 +11,37 @@ from sklearn import datasets
 # We will need this to get the data from a csv file format to an array/list
 import csv
 # My personal Classifiers
-from hCClassifier import HCClassifier
-from kNNClassifier import KNNClassifier
+# from hCClassifier import HCClassifier
+# from kNNClassifier import KNNClassifier
+# from treeClassifier import TreeClassifier
+from networkClassifier import NetworkClassifier
 # For comparison
 from sklearn.neighbors import KNeighborsClassifier
+# import csvSimplifier
 
 def main(argv):
 	# Load a dataset containing many instances each with a set of attributes and a target value.
 	if len(argv) >= 2:
 		fileOrURL = argv[1]
 		isFile = False if fileOrURL.startswith('http') else True
-		if(isFile):
-			# Now we are loading data from a data file that is saved on our computer.
-			with open(fileOrURL, 'r') as myfile:
-				f=myfile.read()
-
-		else:
+		if not isFile:
 			# Lets open the data from the url that has the data in a csv file format
 			# fileOrURL = "http://archive.ics.uci.edu/ml/machine-learning-databases/iris/bezdekIris.data"
-			f = urllib.request.urlopen(fileOrURL).read().decode('utf-8')[:-1]
+			f = io.StringIO(urllib.request.urlopen(fileOrURL).read().decode('utf-8')[:-1])
 
-		raw = list(csv.reader(f.split('\n'), delimiter=','))[:-1]
-		data = []
-		targets = []
-		for sublist in raw:
-			# data (all but last col) goes into our data
-			# Change data from strings to floats
-			data.append([float(i) for i in sublist[:-1]])
-			# target (just the last col) goes into our target
-			targets.append(sublist[-1])
-		# Make it a numpy array just like the other two are
-		data = numpy.array(data)
-		targets = numpy.array(targets)
+		csv = numpy.genfromtxt(fileOrURL, delimiter=",", dtype=str)
+		numcols = len(csv[0])
+		# print ("CSV: ", csv)
+		data = csv[:, :-1]
+		targets = csv[:,-1]
 	else:
 		# Please use the popular Iris dataset (natively in scikit-learn).
 		iris = datasets.load_iris()
 		data = iris.data
 		targets = iris.target
+	num_nodes = 3
+	if len(argv) >= 3:
+		num_nodes = argv[2]
 
 	# Randomize the order of the instances in the dataset. Don't forget that you need to keep the targets matched up with the approprite instance.
 	# This permutation will be used for both the data and the target so it will line up correctly.
@@ -63,7 +57,17 @@ def main(argv):
 
 	# Instantiate your new classifier
 	# classifier = HCClassifier()
-	classifier = KNNClassifier(3)
+	# classifier = KNNClassifier(3)
+	# classifier = TreeClassifier()
+	classifier = NetworkClassifier(num_nodes, len(data[0]))
+
+	# Preprocessing
+	# print ("Last Parameter: ", argv[-1])
+	# if argv[-1] is not 'True':
+		# Before we make the tree we should make sure the data is simple (only a few bins per column)
+		# print ("Data before simplify: ", data)
+		# data = csvSimplifier.simplify(data)
+		# print ("Data after simplify: ", data)
 	# "Train" it with data
 	classifier.train(data[train], targets[train])
 	# Make "Predictions" on the test data
@@ -72,12 +76,14 @@ def main(argv):
 	correct = 0
 	# Count the answers that we got right
 	for (prediction, actual) in zip(predictions, test):
+		# print ("Prediction: ", prediction)
+		# print ("Actual: ", targets[actual])
 		if prediction == targets[actual]:
 			correct += 1
 	#Determine the accuracy of your classifier's predictions (reported as percentage)
 	print (correct/test.size*100)
 	# Create new public repository at GitHub and publish code
-	# Github repository: http://github.com/DanielRMiller/cs450
+	# Github repository: http://github.com/DanielRMiller/cs450tree
 	return
 
 # To make sure main is ran only when ran, not loaded as well
