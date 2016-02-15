@@ -39,9 +39,6 @@ def main(argv):
 		iris = datasets.load_iris()
 		data = iris.data
 		targets = iris.target
-	num_nodes = 3
-	if len(argv) >= 3:
-		num_nodes = argv[2]
 
 	# Randomize the order of the instances in the dataset. Don't forget that you need to keep the targets matched up with the approprite instance.
 	# This permutation will be used for both the data and the target so it will line up correctly.
@@ -57,9 +54,11 @@ def main(argv):
 
 	# Instantiate your new classifier
 	# classifier = HCClassifier()
+	# --------------------How many neighbors --------
 	# classifier = KNNClassifier(3)
 	# classifier = TreeClassifier()
-	classifier = NetworkClassifier(num_nodes, len(data[0]))
+	# ------------------------ Hidden Layers --------
+	classifier = NetworkClassifier((3, 3))
 
 	# Preprocessing
 	# print ("Last Parameter: ", argv[-1])
@@ -80,6 +79,8 @@ def main(argv):
 		# print ("Actual: ", targets[actual])
 		if prediction == targets[actual]:
 			correct += 1
+		# else:
+		# 	print ('Should have been ', targets[actual], 'but guessed ', prediction)
 	#Determine the accuracy of your classifier's predictions (reported as percentage)
 	print (correct/test.size*100)
 	# Create new public repository at GitHub and publish code
