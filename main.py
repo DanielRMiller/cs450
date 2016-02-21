@@ -58,7 +58,7 @@ def main(argv):
 	# classifier = KNNClassifier(3)
 	# classifier = TreeClassifier()
 	# ------------------------ Hidden Layers --------
-	classifier = NetworkClassifier((3, 3))
+	classifier = NetworkClassifier((8, 8))
 
 	# Preprocessing
 	# print ("Last Parameter: ", argv[-1])
@@ -82,7 +82,7 @@ def main(argv):
 		# else:
 		# 	print ('Should have been ', targets[actual], 'but guessed ', prediction)
 	#Determine the accuracy of your classifier's predictions (reported as percentage)
-	print (correct/test.size*100)
+	print ('Testing Set: ', correct/test.size*100)
 	# Create new public repository at GitHub and publish code
 	# Github repository: http://github.com/DanielRMiller/cs450tree
 	return

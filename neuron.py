@@ -19,13 +19,28 @@ class SigmoidNeuron:
         # Weights will be created at time of initialization (including bias)
         # Function someone mentioned in class :)
         self.weights = numpy.random.ranf(num_inputs + 1) - .5
+        # This will be used to update the weights. Should be set at time of error calc
+        self.new_weights = numpy.random.ranf(num_inputs + 1) - .5
+        # Errors should be held in Neuron and will be updated with every iteration
+        self.error = 0
+        self.output = 0
         return
 
     def g(self, input_array):
+        # print('weights: ', self.weights)
+        # print('input_array: ', input_array)
         # Bias calculation
-        sum = -1 * self.weights[0]
+        sum = -1 * self.weights[-1]
+        # print('sum - bias calculation: ', sum)
         # Sum it with the rest of the inputs
         for i in range(len(input_array)):
-            sum += self.weights[i + 1] * input_array[i]
+            # print('summing at item i: ', i)
+            sum += self.weights[i] * input_array[i]
+            # print('weight: ', self.weights[i])
+            # print('input: ', input_array[i])
+            # print('sum: ', sum)
         # This is where I use the sigmoid function
-        return 1 / (1 + math.exp(-sum))
+        # print('final sum: ', sum)
+        self.output = 1 / (1 + math.pow(math.e, -sum))
+        # print('final output: ', self.output)
+        return self.output
